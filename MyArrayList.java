@@ -1,21 +1,40 @@
 /**
-	This will simulate Java's ArrayList class via an array based
+	This will simulate Java's ArrayList class via an array based 
 	implementation
 	@author Brian McEntee
 	@version 1.0
 */
 
+import java.util.Arrays;
+
 public class MyArrayList {
+
+	private static final int DEFAULT_CAPACITY = 16;
+	private Object[] objects;
+	private int currentSize;
+
 
 	/**	Creates a new object with initial capacity of 16*/
 	public MyArrayList() {
-		//TODO
+		objects = new Object[DEFAULT_CAPACITY];
+		currentSize = 0;
 	}
 
 	/** Appends a new object to the end of the list
 		@param o the object to be added to the list */
 	public void add(Object o) {
-		//TODO
+
+		if(this.isFull()) {
+			//double size of the array and retain its contents
+			Object[] tempArray = objects;
+			objects = new Object[2*currentSize];
+			for(int i = 0; i < currentSize; i++) {
+				objects[i] = tempArray[i];
+			}//endfor
+		}//end if
+
+		objects[currentSize] = o;
+		currentSize++;
 	}
 
 	/** Appends a new object to the list at the given index
@@ -56,8 +75,7 @@ public class MyArrayList {
 	/** Determines if the list is empty
 		@return true if the list is empty, else false */
 	public boolean isEmpty() {
-		//TODO
-		return false;
+		return (this.currentSize == 0);
 	}
 
 	/** Determines the last placement of the object in the list
@@ -79,8 +97,7 @@ public class MyArrayList {
 	/** Determines the current size of the list
 		@return the integer number of objects in the list */
 	public int size() {
-		//TODO
-		return -1;
+		return currentSize;
 	}
 
 	/** Removes the object at the given index from the list
@@ -99,6 +116,14 @@ public class MyArrayList {
 	public Object set(int index, Object o) {
 		//TODO
 		return null;
+	}
+
+	private boolean isFull() {
+		return (currentSize == objects.length);
+	}
+
+	public String toString() {
+		return Arrays.toString(objects);
 	}
 
 
