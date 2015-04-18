@@ -1,57 +1,81 @@
 public class MyArrayListDemo {
 
+	public static MyArrayList list;
+
 	public static void main(String[] args) {
 
-		MyArrayList testList = new MyArrayList();
-		System.out.println(testList.size()); //0
-
-		String testString = "test";
-		for(int i = 0; i < 16; i++) {
-			testList.add(testString);
+		list = new MyArrayList();
+		for(int i = 0; i< 10; i++) {
+			list.add(i);
 		}
-		System.out.println(testList.size()); //16
-		System.out.println(testList);
+		display(); // 0 - 9 filled
 
-		for(int i = 0; i < 30; i++)
-			testList.add("new");
+		list.clear();
 
-		System.out.println(testList.size()); //46
+		display(); // now empty
 
-		System.out.println(testList);
-		System.out.println(testList.contains("test")); //true
-		System.out.println(testList.contains("foo")); //false
+		for(int i = 0; i< 10; i++) {
+			list.add("temp" + i); //fill again
+		}
 
-		String copyString = (String)testList.get(0); //must cast to String since it returns Object type
-		System.out.println(copyString); // prints "test"
+		list.remove(0);
 
-		System.out.println(testList.indexOf("new")); // 16
-		System.out.println(testList.indexOf("test")); // 0
+		display(); // 9 in front
 
-		System.out.println(testList.lastIndexOf("test")); //15
+		list.remove(2); 
 
-		testList.add(16,"inserted!!!");
-		System.out.println(testList.get(16)); //prints "inserted!!!"
+		display();
 
-		testList.add(16,"pushover");
-		System.out.println(testList.get(16)); //prints "pushover"
+		list.add(0,"firstAddition");
+		display();
 
-		System.out.println(testList);
+		list.add("secondAddition");
+		display();
 
-		testList.remove("test");
-		System.out.println(testList);
+		list.add(5,"thirdAddition");
+		display();
 
-		testList.remove(16);
-		System.out.println(testList);
+		list.remove("firstAddition");
+		list.remove("secondAddition");
+		list.remove("thirdAddition");
 
-		testList.remove("inserted!!!"); 
-		System.out.println(testList);
-		System.out.println(testList.size());
+		display();
+		list.remove(5);
+		display();
 
-		testList.set(0,"re-inserted!!!");
-		System.out.println(testList);
-		System.out.println(testList.size());
+		list.remove(0);
+		list.remove(0);
+		list.remove(0);
+		display();
 
-		
+		for(int i = 0; i < 12; i ++)
+			list.add("new" + i);
 
+		display();
+
+		list.add(3,"??!??!");
+		display(); 
+
+		list.remove("try"); //nothing
+		display();
+
+		String testStr = (String)list.get(7);
+		System.out.println(testStr);
+		display(); //still contains string at 7th index
+
+		System.out.println(list.indexOf("??!??!"));
+
+		list.add(0,"new0");
+		display();
+		System.out.println(list.lastIndexOf("new0"));
+
+		String replacedStr = (String)list.set(6,"replacementString");
+		display();
+		System.out.println(replacedStr);
+	}
+
+	public static void display(){
+		System.out.println("SIZE: " + list.size());
+		System.out.println(list);
 	}
 }
