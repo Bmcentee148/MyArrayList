@@ -41,35 +41,82 @@ public class MyArrayList {
 		@param index the integer index in the list the object is placed 
 		@param o the object to be placed in the list */
 	public void add(int index, Object o) {
-		//TODO
+
+		if(this.isFull()) {
+			//double size of the array and retain its contents
+			Object[] tempArray = objects;
+			objects = new Object[2*currentSize];
+			for(int i = 0; i < currentSize; i++) {
+				objects[i] = tempArray[i];
+			}//endfor
+		}//end if
+
+		if(index == this.currentSize) { //put at end
+			this.add(o);
+		} else {
+			//copy from given index into temp array
+			Object[] tempArray = new Object[currentSize];
+			for(int i = index; i < currentSize; i++) {
+				tempArray[i] = objects[i];
+			}
+
+			objects[index] = o; //place object at given index
+
+			//copy back from temp and shift right
+			for(int i = index; i < currentSize; i++) {
+				objects[i + 1] = tempArray[i]; 
+			}
+
+		}
+
+		currentSize ++;
+
 	}
 
 	/** Clears all the objects from the list */
 	public void clear() {
-		//TODO
+		currentSize = 0;
+		objects = new Object[DEFAULT_CAPACITY];
 	}
 
 	/** Determines whether the list contains the given object
 		@param o the object to look for
 		@return true if the list contains the object, else false */
 	public boolean contains(Object o) {
-		//TODO
-		return false;
+		boolean status = false;
+		for(int i = 0; i < currentSize; i++) {
+			if(objects[i].equals(o)){
+				status = true;
+				break;
+			}
+		}
+		return status;
 	}
 
 	/** Retrieves the object from the given index
 		@param index the integer index in the list of the object to retreive
 		@return the object found at the given index */
 	public Object get(int index) {
-		//TODO
-		return null;
+		if(index < currentSize) {
+			return objects[index];
+		} else {
+			return null;
+		}
 	}
 	/** Determines the first placement of the object in the list
 		@param o the object to look for
 		@return the integer index of the first occurrence of the object in the list */
 	public int indexOf(Object o) {
-		//TODO
-		return -1;
+		int index = -1;
+		if(this.contains(o)) {
+			for(int i = 0; i < currentSize; i++) {
+				if(objects[i].equals(o)) {
+					index = i;
+					break;
+				}
+			}
+		}
+		return index;
 	}
 
 	/** Determines if the list is empty
@@ -82,16 +129,34 @@ public class MyArrayList {
 		@param o the object to look for
 		@return the integer index of the last occurrence of the object in the list */
 	public int lastIndexOf(Object o) {
-		//TODO
-		return -1;
+		int index = -1;
+		if(this.contains(o)) {
+			for(int i = (currentSize - 1); i >= 0; i--) {
+				if(objects[i].equals(o)) {
+					index = i;
+					break;
+				}
+			}
+		}
+		return index;
 	}
 
 	/** Removes the given object from the list
 		@param o the object to remove from the list
 		@return true if the removal was successfull, else false */
 	public boolean remove(Object o) {
-		//TODO
-		return false;
+		boolean status = false;
+		Object return_o;
+		if(this.contains(o)) {
+			status = true;
+			int index = this.indexOf(o);
+			return_o = objects[index];
+			objects[index] = objects[currentSize - 1];
+			objects[currentSize - 1] = null;
+			currentSize --;
+		}
+		
+		return status;
 	}
 
 	/** Determines the current size of the list
@@ -104,8 +169,14 @@ public class MyArrayList {
 		@param index the integer index of the object to remove
 		@return the object removed from the list */
 	public Object remove(int index) {
-		//TODO
-		return null;
+		Object return_o = null;
+		if(index < currentSize) {
+			return_o = objects[index];
+			objects[index] = objects[currentSize - 1];
+			objects[currentSize - 1] = null;
+			currentSize --;
+		}
+		return return_o;
 	}
 
 	/** Sets the given object at the specified index while removing the
@@ -114,8 +185,12 @@ public class MyArrayList {
 		@param index the integer index in the list to set the object 
 		@return the object previously contained at the index */
 	public Object set(int index, Object o) {
-		//TODO
-		return null;
+		Object return_o = null;
+		if(index < currentSize) {
+			return_o = objects[index];
+			objects[index] = o;
+		}
+		return return_o;
 	}
 
 	private boolean isFull() {
